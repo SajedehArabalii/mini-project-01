@@ -20,18 +20,21 @@ def prepare_data():
     # print(f"data types: {df.dtypes}") 
     # # Number of samples and features 
     # print(f"samples x features : {df.shape}") 
-    # # Class distribution 
-    # print(f"class distribution : \n{df['Class'].value_counts()}") 
     # # Number of missing values 
     # print(f"missing values : \n{df.isna().sum()}") 
     # # Check for duplicates 
-    # print(f"duplicate : {df.duplicated().sum()}") 
-    # # Descriptive Statistics 
-    # print(f"Discriptive Statistics : {df.describe()}") 
- 
+    # print(f"duplicate : {df.duplicated().sum()}")
+     
     # Remove duplicates 
     df = df.drop_duplicates() 
- 
+    
+    # # Shape of data after removing duplicates
+    # print(f"Shape after drop : {df.shape}")
+    # # Class distribution 
+    # print(f"class distribution : \n{df['Class'].value_counts()}") 
+    # # Descriptive Statistics 
+    # print(f"Discriptive Statistics : {df.describe()}") 
+
     # Split your features and target 
     X = df.drop("Class", axis=1) 
     y = df["Class"] 
@@ -54,4 +57,6 @@ def prepare_data():
         y_test, 
  
     ) 
- 
+
+if __name__ == "__main__":
+    prepare_data()
