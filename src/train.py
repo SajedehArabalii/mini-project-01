@@ -212,12 +212,29 @@ tree_param_grid = {
 "max_depth": [3, 5, 10, 15, 20, None]
 }
 tree_grid = GridSearchCV(
-tree,
-tree_param_grid,
-cv=skf,
-scoring="f1"
+    tree,
+    tree_param_grid,
+    cv=skf,
+    scoring={
+        "precision": "precision",
+        "recall": "recall",
+        "f1": "f1"
+    },
+    refit="f1"
 )
 tree_grid.fit(X_train, y_train)
+
+
+tree_results = pd.DataFrame(tree_grid.cv_results_)
+
+print("\n=== Decision Tree Hyperparameter Experiment ===")
+
+for i in range(len(tree_results)):
+    print(f"\nMax Depth = {tree_results.loc[i, 'param_max_depth']}")
+    print(f"Precision: {tree_results.loc[i, 'mean_test_precision']:.3f}")
+    print(f"Recall:    {tree_results.loc[i, 'mean_test_recall']:.3f}")
+    print(f"F1:        {tree_results.loc[i, 'mean_test_f1']:.3f}")
+
 
 print("\nDecision Tree - Best Parameters:")
 print(tree_grid.best_params_)
