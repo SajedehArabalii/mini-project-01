@@ -123,13 +123,37 @@ knn_cv_results = cross_validate(
 knn_param_grid = {
     "knn__n_neighbors": [3, 5, 7, 11, 15]
 }
+
 knn_grid = GridSearchCV(
     knn_pipeline,
     knn_param_grid,
     cv=skf,
-    scoring="f1"
+    scoring={
+        "precision": "precision",
+        "recall": "recall",
+        "f1": "f1"
+    },
+    refit="f1"
 )
+
 knn_grid.fit(X_train, y_train)
+
+knn_results = pd.DataFrame(knn_grid.cv_results_)
+
+print("\n=== KNN Hyperparameter Experiment ===")
+
+for i in range(len(knn_results)):
+    print(f"\nK = {knn_results.loc[i, 'param_knn__n_neighbors']}")
+    print(f"Precision: {knn_results.loc[i, 'mean_test_precision']:.3f}")
+    print(f"Recall:    {knn_results.loc[i, 'mean_test_recall']:.3f}")
+    print(f"F1:        {knn_results.loc[i, 'mean_test_f1']:.3f}")
+
+print("\nBest K:")
+print(knn_grid.best_params_)
+
+print("Best CV F1:")
+print(knn_grid.best_score_)
+
 print("\nKNN - Best Parameters:")
 print(knn_grid.best_params_)
 
