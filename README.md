@@ -1,21 +1,79 @@
-# Credit Card Fraud Detection — Preliminary Q&A
+# Credit Card Fraud Detection Pipeline
 
-### 1. Which model do you expect to perform best for fraud detection? Why?
+## 1. Project Overview
 
-**Decision Tree:** It can capture nonlinear relationships and interactions between features, which may help it distinguish fraudulent transactions from legitimate ones more effectively.
+This project implements an end-to-end machine learning pipeline for credit card fraud detection. The goal is to classify credit card transactions as legitimate or fraudulent.
 
-### 2. Which metric is more important for this problem: Precision, Recall, or F1-score? Why?
+The pipeline covers data preparation, train/test splitting, feature scaling, model training, cross-validation, hyperparameter experiments, threshold selection, model evaluation, and prediction on new transactions.
 
-**Recall:** In fraud detection, missing a fraudulent transaction can be costly. Therefore, we generally want to minimize **false negatives** and detect as many fraudulent transactions as possible.
+---
 
-### 3. What do you expect to happen if the model predicts all transactions as legitimate?
+## 2. Problem Description
 
-It would achieve **very high accuracy** because of the severe class imbalance, but its **precision, recall, and F1-score for the fraud class would be 0** because it would detect no fraudulent transactions.
+### Business Scenario
 
-### 4. Do you expect feature scaling to significantly affect KNN performance?
+Credit card fraud is a major challenge for financial institutions. The goal of this project is to build a machine learning system that can identify potentially fraudulent credit card transactions.
 
-**Yes.** KNN relies on distances between data points, so features with larger scales can dominate the distance calculation and significantly affect the model's performance.
+### Objective
 
-### 5. Do you expect the Decision Tree to overfit? Why?
+The objective is to build an end-to-end machine learning pipeline that classifies transactions as:
 
-**Yes.** A Decision Tree can become very complex and memorize the training data, especially when it grows too deep, which can lead to **overfitting** and poor performance on unseen data.
+- `0` → Legitimate
+- `1` → Fraudulent
+
+The project focuses on reliable fraud detection rather than accuracy alone.
+
+---
+
+## 3. Dataset
+
+### Dataset Information
+
+- Dataset: Credit Card Fraud Detection Dataset
+- Source: Kaggle
+- Samples: 283,726
+- Features: 30
+- Fraudulent transactions: 473
+- Legitimate transactions: 283,253
+- Fraud ratio: 0.167%.
+
+### Features
+
+The dataset contains:
+
+- `Time`
+- `V1`–`V28`
+- `Amount`
+- `Class` — target variable
+
+The `V1`–`V28` features are anonymized numerical features.
+
+### Class Imbalance
+
+Fraudulent transactions represent only about 0.167% of the dataset. Because legitimate transactions greatly outnumber fraudulent transactions, a model could achieve very high Accuracy while detecting very few fraudulent transactions. Therefore, Precision, Recall, and F1-score are more informative for evaluating fraud detection performance.
+
+---
+
+## 4. Project Structure
+
+```text
+mini-project-01/
+│
+├── README.md
+├── requirements.txt
+├── .gitignore
+│
+├── data/
+│   └── creditcard.csv
+│
+├── src/
+│   ├── data_prep.py
+│   ├── train.py
+│   └── predict.py
+│
+├── models/
+│   ├── model.pkl
+│   └── scaler.pkl
+│
+└── reports/
+    └── experiments.md
