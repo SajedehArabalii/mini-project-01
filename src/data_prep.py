@@ -41,6 +41,7 @@ def prepare_data():
     ) 
  
     # feature scaling 
+    # not needed but asked for
     scaler = StandardScaler() 
     scaler.fit(X_train) 
     X_train_scaled = scaler.transform(X_train) 
